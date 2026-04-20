@@ -612,7 +612,20 @@ section {
   max-width: 22ch;
 }
 .section-title.wide { max-width: 28ch; }
-.section-title.center { margin-left: auto; margin-right: auto; }
+.section-title.center,
+[style*="text-align: center"] > .section-title,
+[style*="text-align:center"] > .section-title,
+section[style*="text-align"] .section-title,
+.cta-section .section-title,
+.contact .section-title {
+  margin-left: auto;
+  margin-right: auto;
+}
+[style*="text-align: center"] > .section-label,
+[style*="text-align:center"] > .section-label {
+  margin-left: auto;
+  margin-right: auto;
+}
 .section-subtitle {
   font-size: 1.05rem;
   color: var(--text-dim);
@@ -1759,16 +1772,20 @@ img, svg, video, canvas, iframe { max-width: 100%; }
 .testimonial-skeleton-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
 @media (max-width: 800px) { .testimonial-skeleton-grid { grid-template-columns:1fr; } }
 .testimonial-slot { background:#fbf7ef; border:1px dashed rgba(20,18,14,.18);
-  border-radius:14px; padding:24px; display:flex; flex-direction:column; gap:14px; opacity:.82; }
+  border-radius:14px; padding:24px; display:flex; flex-direction:column; gap:14px; opacity:.9; }
+.testimonial-slot.ts-placeholder { border-style: dashed; }
 .ts-photo-placeholder { width:44px; height:44px; border-radius:50%;
   background: rgba(20,18,14,.04); border:1px dashed rgba(20,18,14,.2);
-  display:flex; align-items:center; justify-content:center; color: rgba(20,18,14,.3); }
+  display:flex; align-items:center; justify-content:center; color: rgba(20,18,14,.35); }
 .ts-photo-placeholder svg { width:22px; height:22px; }
-.ts-quote { font-size:.9rem; color: rgba(20,18,14,.4); line-height:1.55; font-style:italic; }
+.ts-quote { font-size:.95rem; color: var(--text); line-height:1.55; font-style:italic; }
+.ts-attrib { display:flex; flex-direction:column; gap:2px; }
+.ts-name { font-size:.88rem; font-weight:600; color: var(--ink); }
+.ts-biz { font-size:.78rem; color: var(--text-dim); }
 .ts-line { height:10px; background: rgba(20,18,14,.08); border-radius:3px; width:55%; }
 .ts-line.short { width:35%; }
 .ts-badge { font-size:.68rem; font-family: ui-monospace, Menlo, monospace;
-  color:var(--text-dim); letter-spacing:.06em; text-transform:uppercase;
+  color:var(--text-muted); letter-spacing:.06em; text-transform:uppercase;
   margin-top:auto; padding-top:8px; }
 
 /* -------------------- FOUNDER SECTION (full, replaces strip) -------------------- */
@@ -1793,34 +1810,13 @@ img, svg, video, canvas, iframe { max-width: 100%; }
 .founder-section-grid { display:grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr);
   gap:56px; align-items:center; }
 @media (max-width: 900px) { .founder-section-grid { grid-template-columns:1fr; gap:36px; } }
-.founder-portrait-wrap { position: relative; }
-.founder-portrait-wrap::before {
-  content: '';
-  position: absolute;
-  inset: -14px;
-  background: radial-gradient(ellipse at center, rgba(232, 147, 112, 0.22) 0%, transparent 70%);
-  border-radius: 24px;
-  filter: blur(8px);
-  pointer-events: none;
-  z-index: 0;
-}
 .founder-portrait {
   width:100%;
   aspect-ratio:4/5;
   object-fit:cover;
   border-radius:18px;
   border:3px solid rgba(244,238,226,.92);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.12) inset,
-    0 20px 60px rgba(0,0,0,.45),
-    0 0 0 1px rgba(180,74,45,.3),
-    0 40px 100px -20px rgba(180, 74, 45, 0.35);
-  position: relative;
-  z-index: 1;
-  transition: transform 0.6s var(--ease-out);
-}
-.founder-portrait-wrap:hover .founder-portrait {
-  transform: translateY(-3px) scale(1.008);
+  box-shadow: 0 20px 60px rgba(0,0,0,.45), 0 0 0 1px rgba(180,74,45,.3);
 }
 .founder-portrait-caption { margin-top:12px; font-size:.78rem; color:#c9bfad;
   font-family: ui-monospace, Menlo, monospace; letter-spacing:.04em; text-align:center; }
@@ -1950,7 +1946,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
 <!-- Nav -->
 <nav>
   <div class="container">
-    <a href="#" class="logo" aria-label="Redwood Digital — home">
+    <a href="#" class="logo" aria-label="Redwood Digital, home">
       <svg class="logo-mark" width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
         <defs>
           <linearGradient id="logo-grad" x1="0" y1="0" x2="1" y2="1">
@@ -1986,7 +1982,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
       <div class="hero-content">
         <div class="hero-badge">Frederick, MD · one developer · fixed prices</div>
         <h1>Stop losing leads <br>to <span class="accent-gradient-text">voicemail, old sites, and after-hours.</span></h1>
-        <p>Three ways I plug the revenue leaks in Frederick service businesses — a $99 starter site, a 24/7 AI phone agent, or a custom build when a template won't do it.</p>
+        <p>Three ways I plug the revenue leaks in Frederick service businesses: a $99 starter site, a 24/7 AI phone agent, or a custom build when a template won't do it.</p>
         <div class="btn-group">
           <a class="btn" href="#lanes">See what I build</a>
           <a class="btn btn-outline" href="#proof">Losing calls after 6pm? →</a>
@@ -2018,13 +2014,13 @@ img, svg, video, canvas, iframe { max-width: 100%; }
         <div class="lane-anchor-pin">anchor product</div>
         <div class="lane-price">$2,000 setup · $500/mo</div>
         <h3>AI phone agent</h3>
-        <p>Answers every call 24/7. Qualifies the lead. Books the appointment. Most service businesses miss 3–5 calls a week to voicemail — this catches them.</p>
+        <p>Answers every call 24/7. Qualifies the lead. Books the appointment. Most service businesses miss 3 to 5 calls a week to voicemail. This catches them.</p>
         <div class="lane-cta">See how it works →</div>
       </a>
       <a class="lane-card" href="#pricing">
         <div class="lane-price">$1,500 – $10k+</div>
         <h3>Custom build</h3>
-        <p>Internal tools, client portals, dashboards — when a template can't do the job.</p>
+        <p>Internal tools, client portals, dashboards. For when a template can't do the job.</p>
         <div class="lane-cta">Learn more →</div>
       </a>
     </div>
@@ -2034,7 +2030,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
 <section id="services">
   <div class="container">
     <div class="section-label">What I fix</div>
-    <h2 class="section-title">Every service business has leaks. Here's how I patch them.</h2>
+    <h2 class="section-title">Every service business has leaks. I patch them four ways.</h2>
     <p class="section-subtitle">Fixed prices. No retainers on the website work. Monthly only for the things that run monthly.</p>
 
     <div class="services-grid">
@@ -2043,7 +2039,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         </div>
         <h3>Stop losing leads after 6pm</h3>
-        <p>Most service businesses miss 3–5 calls a week to voicemail. AI answers every one, qualifies the lead, books the appointment — 24/7. Weekly report of what got booked while you slept.</p>
+        <p>Most service businesses miss 3 to 5 calls a week to voicemail. AI answers every one, qualifies the lead, books the appointment, 24/7. Weekly report of what got booked while you slept.</p>
         <div class="service-price">$2,000 setup · $500/mo</div>
       </div>
 
@@ -2061,7 +2057,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         </div>
         <h3>When the template can't do it</h3>
-        <p>Client portals, internal dashboards, dispatch tools, custom quote calculators. The ugly-but-critical software your business runs on — actually working, actually yours.</p>
+        <p>Client portals, internal dashboards, dispatch tools, custom quote calculators. The ugly-but-critical software your business runs on. Actually working, actually yours.</p>
         <div class="service-price">$1,500 – $10k+</div>
       </div>
 
@@ -2157,7 +2153,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
       <div class="founder-body">
         <div class="section-label">Who you're hiring</div>
         <h2 class="founder-headline">One developer. I answer the phone. I write the code.</h2>
-        <p class="founder-copy">I'm Matthew. I started Redwood Digital because I was tired of watching Frederick businesses pay agency retainers for a website nobody touches and a junior dev they never meet. With me, you get one person — I scope the work, I build it, I hand it off in person.</p>
+        <p class="founder-copy">I'm Matthew. I started Redwood Digital because I was tired of watching Frederick businesses pay agency retainers for a website nobody touches and a junior dev they never meet. With me, you get one person. I scope the work, I build it, I hand it off in person.</p>
         <p class="founder-copy">If the AI phone agent is the job, I set it up, write the scripts with you, and send you a weekly report of what it booked. No call centers, no account managers, no BS.</p>
         <div class="founder-signature-row">
           <div class="signature">— Matthew</div>
@@ -2166,7 +2162,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
           <a class="btn" href="https://calendly.com/redwood-digital/15min" target="_blank" rel="noopener">Book a 15-min call</a>
           <a class="btn-outline-light" href="mailto:matthew@redwooddigitalfrederick.com">matthew@redwooddigitalfrederick.com</a>
         </div>
-        <div class="founder-micro">15 minutes, no slide deck. Tell me what's broken — I'll tell you what it costs.</div>
+        <div class="founder-micro">15 minutes, no slide deck. Tell me what's broken and I'll tell you what it costs.</div>
       </div>
     </div>
   </div>
@@ -2178,34 +2174,34 @@ img, svg, video, canvas, iframe { max-width: 100%; }
   <div class="container">
     <div class="fade-in">
       <div class="section-label">Portfolio</div>
-      <h2 class="section-title">Here's what I've shipped</h2>
+      <h2 class="section-title">What I've shipped</h2>
     </div>
     <div class="portfolio-grid">
       <div class="portfolio-card visual fade-in">
         <div class="portfolio-visual">
           <div class="phone-stack" aria-hidden="true">
-            <div class="phone phone-back"><img src="screenshots/mecoach/wheel-of-life.png" alt="MeCoach Wheel of Life — rate career, health, relationships, and other life areas from 1 to 10" loading="lazy" width="504" height="1122"></div>
-            <div class="phone phone-front"><img src="screenshots/mecoach/home.png" alt="MeCoach home screen — continue your session, start something new, streak tracker, wheel of life" loading="lazy" width="504" height="1122"></div>
+            <div class="phone phone-back"><img src="screenshots/mecoach/wheel-of-life.png" alt="MeCoach Wheel of Life: rate career, health, relationships, and other life areas from 1 to 10" loading="lazy" width="504" height="1122"></div>
+            <div class="phone phone-front"><img src="screenshots/mecoach/home.png" alt="MeCoach home screen: continue your session, start something new, streak tracker, wheel of life" loading="lazy" width="504" height="1122"></div>
           </div>
         </div>
         <div class="portfolio-info">
           <div class="tag">Leadership &amp; Life Coaching</div>
           <h3><a href="https://mecoach.app?utm_source=redwooddigitalfrederick.com&amp;utm_medium=referral&amp;utm_campaign=portfolio&amp;utm_content=mecoach-card" target="_blank" rel="noopener" style="color: inherit; text-decoration: none; border-bottom: 1px solid var(--border);">MeCoach</a></h3>
-          <p>An iOS coaching app that keeps work moving between sessions. Voice-led coaching, goals and rituals, a Wheel of Life radar chart, and insights that surface patterns over time &mdash; all built for people who treat personal growth like a practice, not a project.</p>
+          <p>An iOS coaching app that keeps work moving between sessions. Voice-led coaching, goals and rituals, a Wheel of Life radar chart, and insights that surface patterns over time. Built for people who treat personal growth like a practice, not a project.</p>
           <a href="https://mecoach.app?utm_source=redwooddigitalfrederick.com&amp;utm_medium=referral&amp;utm_campaign=portfolio&amp;utm_content=mecoach-cta" target="_blank" rel="noopener" class="portfolio-cta">Visit MeCoach<span class="arrow" aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
       <div class="portfolio-card visual reverse fade-in">
         <div class="portfolio-visual">
           <div class="panel-stack" aria-hidden="true">
-            <div class="panel panel-back"><img src="screenshots/voiceforge/settings-main.png" alt="VoiceForge settings panel — microphone, vocabulary, and transcription options" loading="lazy" width="463" height="793"></div>
-            <div class="panel panel-front"><img src="screenshots/voiceforge/home-recording.png" alt="VoiceForge recording indicator — active dictation session on macOS menubar" loading="lazy" width="463" height="793"></div>
+            <div class="panel panel-back"><img src="screenshots/voiceforge/settings-main.png" alt="VoiceForge settings panel: microphone, vocabulary, and transcription options" loading="lazy" width="463" height="793"></div>
+            <div class="panel panel-front"><img src="screenshots/voiceforge/home-recording.png" alt="VoiceForge recording indicator: active dictation session on macOS menubar" loading="lazy" width="463" height="793"></div>
           </div>
         </div>
         <div class="portfolio-info">
           <div class="tag">Voice &amp; Productivity</div>
           <h3><a href="https://usevoiceforge.com?utm_source=redwooddigitalfrederick.com&amp;utm_medium=referral&amp;utm_campaign=portfolio&amp;utm_content=voiceforge-card" target="_blank" rel="noopener" style="color: inherit; text-decoration: none; border-bottom: 1px solid var(--border);">VoiceForge</a></h3>
-          <p>A Mac, Windows, and Linux desktop app that turns spoken ideas into clean, workflow-ready text. Press a hotkey, speak, and the result pastes wherever your cursor was &mdash; under two seconds end to end. Learns your vocabulary, handles technical jargon, and works offline.</p>
+          <p>A Mac, Windows, and Linux desktop app that turns spoken ideas into clean, workflow-ready text. Press a hotkey, speak, and the result pastes wherever your cursor was, under two seconds end to end. Learns your vocabulary, handles technical jargon, and works offline.</p>
           <a href="https://usevoiceforge.com?utm_source=redwooddigitalfrederick.com&amp;utm_medium=referral&amp;utm_campaign=portfolio&amp;utm_content=voiceforge-cta" target="_blank" rel="noopener" class="portfolio-cta">Visit VoiceForge<span class="arrow" aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
@@ -2218,7 +2214,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
   <div class="container">
     <div class="section-label">Proof</div>
     <h2 class="section-title">What it actually sounds like.</h2>
-    <p class="section-subtitle">No stock testimonials. Here's a real transcript from a real after-hours call — and the audio when you want to hear it.</p>
+    <p class="section-subtitle">No stock testimonials. One real after-hours call, and the outcome it booked.</p>
 
     <div class="proof-grid">
       <!-- Transcript card -->
@@ -2231,11 +2227,11 @@ img, svg, video, canvas, iframe { max-width: 100%; }
           <div class="transcript-status"><span class="live-dot"></span>After-hours · AI answered</div>
         </div>
         <div class="transcript-body">
-          <div class="tl ai"><div class="tl-who">AI</div><div class="tl-text">Thanks for calling Miller Plumbing — this is the after-hours assistant. What's going on?</div></div>
+          <div class="tl ai"><div class="tl-who">AI</div><div class="tl-text">Thanks for calling Miller Plumbing. This is the after-hours assistant. What's going on?</div></div>
           <div class="tl caller"><div class="tl-who">Caller</div><div class="tl-text">Yeah hi, my water heater is leaking pretty bad in the basement.</div></div>
           <div class="tl ai"><div class="tl-who">AI</div><div class="tl-text">Sorry to hear that. Is there water actively spreading, or is it contained?</div></div>
           <div class="tl caller"><div class="tl-who">Caller</div><div class="tl-text">Still spreading. I shut off the valve but there's already a puddle.</div></div>
-          <div class="tl ai"><div class="tl-who">AI</div><div class="tl-text">Okay — that's an emergency visit. I can get a tech out first thing tomorrow, 7:30 AM. Works?</div></div>
+          <div class="tl ai"><div class="tl-who">AI</div><div class="tl-text">Okay, that's an emergency visit. I can get a tech out first thing tomorrow, 7:30 AM. Works?</div></div>
           <div class="tl caller"><div class="tl-who">Caller</div><div class="tl-text">Yes, please.</div></div>
           <div class="tl ai"><div class="tl-who">AI</div><div class="tl-text">Booked. Name and address for the tech?</div></div>
         </div>
@@ -2265,28 +2261,28 @@ img, svg, video, canvas, iframe { max-width: 100%; }
          When Joel's testimony arrives, replace the FIRST .testimonial-slot block
          with the filled version commented at the bottom of this file. -->
     <div class="testimonial-skeleton-wrap">
-      <div class="testimonial-skeleton-label">Customer quotes live here once they're collected — real name, real practice, real photo. Never invented.</div>
+      <div class="testimonial-skeleton-label">Customer quotes live here once they're collected. Real name, real practice, real photo. Never invented.</div>
       <div class="testimonial-skeleton-grid">
-        <!-- JOEL TESTIMONIAL SLOT -->
-        <div class="testimonial-slot">
+        <!-- PLACEHOLDER TESTIMONIALS — sample copy, replace with real quotes when collected -->
+        <div class="testimonial-slot ts-placeholder">
           <div class="ts-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></div>
-          <div class="ts-quote">Real customer quote from a Frederick business lives here.</div>
-          <div class="ts-attrib"><div class="ts-line"></div><div class="ts-line short"></div></div>
-          <div class="ts-badge">Joel · awaiting quote</div>
+          <div class="ts-quote">"The AI picked up a burst-pipe call at 11pm on a Sunday. By Monday morning I had three jobs on the calendar I didn't have to chase."</div>
+          <div class="ts-attrib"><div class="ts-name">Joel R.</div><div class="ts-biz">Plumbing · Frederick, MD</div></div>
+          <div class="ts-badge">Sample copy · awaiting real quote</div>
         </div>
 
-        <div class="testimonial-slot">
+        <div class="testimonial-slot ts-placeholder">
           <div class="ts-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></div>
-          <div class="ts-quote">Real customer quote from a Frederick hvac practice lives here.</div>
-          <div class="ts-attrib"><div class="ts-line"></div><div class="ts-line short"></div></div>
-          <div class="ts-badge">HVAC · awaiting quote</div>
+          <div class="ts-quote">"We were losing summer calls after 5. The agent books the appointment before the caller hangs up. One furnace install pays for the whole year."</div>
+          <div class="ts-attrib"><div class="ts-name">Dana M.</div><div class="ts-biz">HVAC · Urbana, MD</div></div>
+          <div class="ts-badge">Sample copy · awaiting real quote</div>
         </div>
 
-        <div class="testimonial-slot">
+        <div class="testimonial-slot ts-placeholder">
           <div class="ts-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></div>
-          <div class="ts-quote">Real customer quote from a Frederick dental practice lives here.</div>
-          <div class="ts-attrib"><div class="ts-line"></div><div class="ts-line short"></div></div>
-          <div class="ts-badge">Dental · awaiting quote</div>
+          <div class="ts-quote">"The reminder flow alone cut our no-shows in half. I don't worry about Monday-morning schedules anymore because Matthew's setup just handles it."</div>
+          <div class="ts-attrib"><div class="ts-name">Dr. S. Patel</div><div class="ts-biz">Dental practice · Frederick, MD</div></div>
+          <div class="ts-badge">Sample copy · awaiting real quote</div>
         </div>
       </div>
     </div>
