@@ -28,6 +28,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23b44a2d'/><text x='16' y='22' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>R</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="images/matthew-coleman.jpg" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
 
 <!-- ─── Google Analytics 4 ───────────────────────────────────────────
@@ -104,12 +105,18 @@
 
 ::selection { background: rgba(180, 74, 45, 0.2); color: #1a1a1a; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+@media (max-width: 640px) { html { scroll-padding-top: 76px; } }
 
-/* Anchor-target scroll-margin so sticky nav doesn't clip headings.
-   Fixes: clicking "See Details" no longer hides the Starter Pack title behind the nav. */
+/* Anchor-target scroll-margin so sticky nav doesn't clip headings */
 section[id] { scroll-margin-top: 88px; }
 @media (max-width: 640px) { section[id] { scroll-margin-top: 72px; } }
+
+/* Defer paint for below-fold sections — faster LCP */
+.portfolio-grid, .faq-list, footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1200px;
+}
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -241,8 +248,16 @@ a:hover { color: var(--accent-light); }
   line-height: 1;
 }
 .mobile-cta .mobile-cta-primary {
-  background: var(--accent);
+  background: linear-gradient(180deg, var(--accent-light) 0%, var(--accent) 55%, var(--accent-deep) 100%);
   color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(20, 18, 14, 0.18),
+    0 2px 6px rgba(180, 74, 45, 0.22);
+}
+.mobile-cta .mobile-cta-primary:hover,
+.mobile-cta .mobile-cta-primary:focus-visible {
+  filter: brightness(1.06);
 }
 .mobile-cta .mobile-cta-secondary {
   background: transparent;
@@ -277,17 +292,25 @@ nav {
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 16px 0;
+  padding: 18px 0;
   background: rgba(244, 238, 226, 0.72);
   backdrop-filter: blur(14px) saturate(1.6);
   -webkit-backdrop-filter: blur(14px) saturate(1.6);
   border-bottom: 1px solid transparent;
-  transition: background 0.3s var(--ease-out), border-color 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+  transition:
+    background 0.3s var(--ease-out),
+    border-color 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out),
+    padding 0.3s var(--ease-out);
 }
 nav.is-scrolled {
-  background: rgba(244, 238, 226, 0.92);
+  padding: 12px 0;
+  background: rgba(244, 238, 226, 0.94);
   border-bottom-color: var(--border);
-  box-shadow: 0 1px 0 rgba(20, 18, 14, 0.015), 0 8px 24px rgba(20, 18, 14, 0.04);
+  box-shadow:
+    0 1px 0 rgba(20, 18, 14, 0.02),
+    0 4px 14px rgba(20, 18, 14, 0.05),
+    0 14px 32px -8px rgba(20, 18, 14, 0.06);
 }
 nav .container {
   display: flex;
@@ -1293,6 +1316,24 @@ section {
     0 1px 2px rgba(180, 74, 45, 0.5),
     0 12px 40px -8px rgba(180, 74, 45, 0.55);
 }
+.cta-section .btn::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 14px;
+  box-shadow: 0 0 0 0 rgba(232, 147, 112, 0.5);
+  pointer-events: none;
+  animation: cta-pulse 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes cta-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(232, 147, 112, 0.45); }
+  70%  { box-shadow: 0 0 0 14px rgba(232, 147, 112, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(232, 147, 112, 0); }
+}
+.cta-section .btn:hover::after { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .cta-section .btn::after { animation: none; display: none; }
+}
 .cta-section .btn:hover {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.24),
@@ -2097,7 +2138,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
   <div class="container">
     <div class="founder-section-grid">
       <div class="founder-portrait-wrap">
-        <img class="founder-portrait" src="images/matthew-coleman.jpg" alt="Matthew Coleman, Redwood Digital">
+        <img class="founder-portrait" src="images/matthew-coleman.jpg" alt="Matthew Coleman, Redwood Digital" loading="lazy" decoding="async" width="900" height="1125">
         <div class="founder-portrait-caption">Matthew Coleman · Frederick, MD</div>
       </div>
       <div class="founder-body">
@@ -2198,7 +2239,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
           <button class="audio-toggle active" data-compare="after" role="tab" aria-selected="true" type="button">After · AI answered</button>
         </div>
 
-        <div class="audio-stage after" id="audioStage">
+        <div class="audio-stage after" id="audioStage" aria-live="polite" aria-atomic="true">
           <div class="audio-stage-title" id="audioStageTitle">AI booked the job in 2:14.</div>
           <div class="audio-stage-sub" id="audioStageSub">Emergency slot booked for 7:30 AM. SMS confirmation sent.</div>
         </div>
