@@ -26,6 +26,8 @@
 <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
 <link rel="canonical" href="https://www.redwooddigitalfrederick.com">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23b44a2d'/><text x='16' y='22' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>R</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
 
 <!-- ─── Google Analytics 4 ───────────────────────────────────────────
@@ -82,12 +84,36 @@ section[id] { scroll-margin-top: 88px; }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'ss01', 'tnum' 0;
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+
+h1, h2, h3, .section-title, .hero h1, .founder-headline {
+  text-wrap: balance;
+}
+
+.pricing-range, .lane-price, .bcc-time, .audio-time, .transcript-time,
+.trust-item strong, .audit-time {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1, 'cv11';
+}
+
+/* Global reduced-motion — disables ambient loops + heavy transitions, preserves state change */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hero::before, .hero::after { animation: none !important; }
+  .fade-in { opacity: 1; transform: none; }
 }
 
 /* Skip link for accessibility */
@@ -107,7 +133,10 @@ body {
 }
 
 /* Focus styles — branded ring with a subtle glow, matches button language */
-a:focus-visible, button:focus-visible, .service-card:focus-visible, .btn:focus-visible {
+a, button, .service-card, .btn {
+  transition-property: outline-offset, box-shadow;
+}
+a:focus-visible, button:focus-visible, .service-card:focus-visible, .btn:focus-visible, .lane-card:focus-visible {
   outline: 2px solid var(--accent-light);
   outline-offset: 3px;
   border-radius: 8px;
@@ -432,7 +461,7 @@ nav ul li a:hover { color: #1a1a1a; }
 .btn {
   display: inline-block;
   padding: 14px 32px;
-  background: var(--accent);
+  background: linear-gradient(180deg, var(--accent-light) 0%, var(--accent) 55%, #a3421f 100%);
   color: #fff;
   font-size: 0.98rem;
   font-weight: 600;
@@ -440,18 +469,33 @@ nav ul li a:hover { color: #1a1a1a; }
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  transition: transform 0.35s var(--ease-spring), background 0.25s var(--ease-out), box-shadow 0.35s var(--ease-out);
+  transition: transform 0.35s var(--ease-spring), filter 0.25s var(--ease-out), box-shadow 0.35s var(--ease-out);
   text-decoration: none;
   text-align: center;
-  box-shadow: 0 1px 2px rgba(180, 74, 45, 0.3), 0 2px 6px rgba(180, 74, 45, 0.15);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(20, 18, 14, 0.18),
+    0 1px 2px rgba(180, 74, 45, 0.3),
+    0 2px 6px rgba(180, 74, 45, 0.15);
 }
 .btn:hover {
-  background: var(--accent-light);
   color: #fff;
+  filter: brightness(1.06) saturate(1.05);
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(180, 74, 45, 0.3), 0 12px 36px rgba(180, 74, 45, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(20, 18, 14, 0.16),
+    0 4px 10px rgba(180, 74, 45, 0.3),
+    0 12px 36px rgba(180, 74, 45, 0.22);
 }
-.btn:active { transform: translateY(0); transition-duration: 0.1s; }
+.btn:active {
+  transform: translateY(0);
+  filter: brightness(0.96);
+  transition-duration: 0.08s;
+  box-shadow:
+    inset 0 2px 4px rgba(20, 18, 14, 0.2),
+    0 1px 2px rgba(180, 74, 45, 0.25);
+}
 .btn-outline {
   background: transparent;
   border: 1px solid var(--border);
@@ -1604,13 +1648,15 @@ section {
   color: var(--accent);
 }
 .faq-answer {
-  max-height: 0;
+  display: grid;
+  grid-template-rows: 0fr;
   overflow: hidden;
-  transition: max-height 0.5s var(--ease-out), padding 0.4s var(--ease-out), opacity 0.3s var(--ease-out);
   opacity: 0;
+  transition: grid-template-rows 0.42s var(--ease-out), padding 0.4s var(--ease-out), opacity 0.3s var(--ease-out);
 }
+.faq-answer > * { min-height: 0; }
 .faq-item.open .faq-answer {
-  max-height: 280px;
+  grid-template-rows: 1fr;
   padding-bottom: 22px;
   opacity: 1;
 }
@@ -1765,24 +1811,6 @@ footer p {
 }
 .footer-links a:hover { color: var(--accent); }
 
-/* ---- STICKY MOBILE CTA ---- */
-.sticky-cta {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 12px 24px;
-  background: rgba(244, 238, 226, 0.95);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid var(--border);
-  z-index: 99;
-}
-.sticky-cta .btn { width: 100%; text-align: center; }
-@media (max-width: 640px) {
-  .sticky-cta.visible { display: block; }
-}
-
 /* ---- COMPREHENSIVE MOBILE STYLES ---- */
 
 /* Tablet (768px) */
@@ -1907,11 +1935,8 @@ footer p {
   .footer-links { gap: 16px; }
   .footer-links a { font-size: 0.8rem; }
 
-  .sticky-cta { padding: 10px 16px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
-  .sticky-cta .btn { padding: 12px; font-size: 0.95rem; }
-
-  /* Extra bottom padding so sticky CTA doesn't cover content */
-  footer { padding-bottom: 72px; }
+  /* Bottom padding so mobile CTA bar doesn't cover footer */
+  footer { padding-bottom: 84px; }
 
   /* Pizazz-layer mobile rules */
   .founder-strip { padding: 24px 0; }
@@ -2279,7 +2304,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
 
       <div class="hero-v2-visual">
         <div class="photo-slot">
-          <img src="images/matthew-coleman.jpg" alt="Matthew Coleman, founder">
+          <img src="images/matthew-coleman.jpg" alt="Matthew Coleman, founder" fetchpriority="high" decoding="async" width="900" height="1125">
         </div>
         <div class="booking-confirm-card" role="img" aria-label="Phone screen showing booking confirmation">
           <div class="bcc-status"><span class="bcc-dot"></span>AI assistant · just now</div>
@@ -2863,11 +2888,6 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
   </div>
 </footer>
 
-<!-- Sticky Mobile CTA -->
-<div class="sticky-cta" id="stickyCta">
-  <a href="https://calendly.com/redwood-digital/free-15-minute-consultation" class="btn" target="_blank" rel="noopener">Book a 15-Min Call</a>
-</div>
-
 <script>
 // Scroll fade-in animation
 const observer = new IntersectionObserver((entries) => {
@@ -2882,20 +2902,6 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-// Sticky mobile CTA - show after scrolling past hero
-const heroSection = document.querySelector('.hero');
-const stickyCta = document.getElementById('stickyCta');
-const stickyObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) {
-      stickyCta.classList.add('visible');
-    } else {
-      stickyCta.classList.remove('visible');
-    }
-  });
-}, { threshold: 0.1 });
-stickyObserver.observe(heroSection);
 
 // Mobile menu
 function toggleMenu() {
