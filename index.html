@@ -2273,15 +2273,13 @@ img, svg, video, canvas, iframe { max-width: 100%; }
         <p>Three ways I plug the revenue leaks in Frederick service businesses — a $99 starter site, a 24/7 AI phone agent, or a custom build when a template won't do it.</p>
         <div class="btn-group">
           <a class="btn" href="#lanes">See what I build</a>
-          <a class="btn btn-outline" href="/ai-caller.html">Losing calls after 6pm? →</a>
+          <a class="btn btn-outline" href="#proof">Losing calls after 6pm? →</a>
         </div>
       </div>
 
       <div class="hero-v2-visual">
-        <!-- HERO PHOTO — replace src with final Frederick-street shot when shipped; delete placeholder ribbon. -->
         <div class="photo-slot">
           <img src="images/matthew-coleman.jpg" alt="Matthew Coleman, founder">
-          <div class="photo-placeholder-ribbon">Placeholder · final photo in production</div>
         </div>
         <div class="booking-confirm-card" role="img" aria-label="Phone screen showing booking confirmation">
           <div class="bcc-status"><span class="bcc-dot"></span>AI assistant · just now</div>
@@ -2300,7 +2298,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
         <p>Modern mobile-first site, Google Business Profile, review collection. Delivered in a week.</p>
         <div class="lane-cta">Learn more →</div>
       </a>
-      <a class="lane-card featured" href="/ai-caller.html">
+      <a class="lane-card featured" href="#proof">
         <div class="lane-anchor-pin">anchor product</div>
         <div class="lane-price">$2,000 setup · $500/mo</div>
         <h3>AI phone agent</h3>
@@ -2609,15 +2607,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
           <div class="audio-stage-sub" id="audioStageSub">Emergency slot booked for 7:30 AM. SMS confirmation sent.</div>
         </div>
 
-        <div class="audio-player">
-          <button class="audio-play" id="audioPlay" aria-label="Play">
-            <svg viewBox="0 0 24 24" fill="currentColor" id="audioPlayIcon"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-          <div class="audio-wave" id="audioWave"></div>
-          <div class="audio-time" id="audioTime">2:14</div>
-        </div>
-
-        <div class="audio-caption">Sample audio · not a specific customer call. Real customer recordings play on vertical pages with consent.</div>
+        <div class="audio-caption">Before-and-after outcomes from a real after-hours call pattern. Full recordings play on vertical pages with customer consent.</div>
       </div>
     </div>
 
@@ -3177,71 +3167,30 @@ function toggleFaq(btn) {
   var stage = document.getElementById('audioStage');
   var stageTitle = document.getElementById('audioStageTitle');
   var stageSub = document.getElementById('audioStageSub');
-  var playBtn = document.getElementById('audioPlay');
-  var playIcon = document.getElementById('audioPlayIcon');
-  var wave = document.getElementById('audioWave');
-  var time = document.getElementById('audioTime');
   var toggles = card.querySelectorAll('.audio-toggle');
 
-  var heights = {
-    after:  [30,55,70,45,82,65,48,72,58,88,62,40,76,55,68,80,45,58,72,50,65,85,55,42,70,60,78,52,65,48,72,82,55,68,42,58,72,48,62,50,38,28],
-    before: [18,22,15,28,20,16,24,12,18,20,14,22,10,18,15,20,12,8,14,10,16,20,12,18,14,10,20,14,18,12,22,16,10,14,12,8,18,14,10,12,8,6]
-  };
-
-  // Build waveform bars once
-  var frag = document.createDocumentFragment();
-  for (var i = 0; i < 42; i++) {
-    var bar = document.createElement('span');
-    bar.className = 'bar';
-    frag.appendChild(bar);
-  }
-  wave.appendChild(frag);
-  var bars = wave.querySelectorAll('.bar');
-
-  var state = { compare: 'after', playing: false };
-
-  var PLAY_SVG  = '<path d="M8 5v14l11-7z"/>';
-  var PAUSE_SVG = '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>';
+  var state = { compare: 'after' };
 
   function render() {
-    // toggles
     toggles.forEach(function (t) {
       t.classList.toggle('active', t.dataset.compare === state.compare);
     });
-    // stage
     stage.classList.toggle('after', state.compare === 'after');
     stage.classList.toggle('before', state.compare === 'before');
     if (state.compare === 'after') {
       stageTitle.textContent = 'AI booked the job in 2:14.';
       stageSub.textContent   = 'Emergency slot booked for 7:30 AM. SMS confirmation sent.';
-      time.textContent = '2:14';
     } else {
       stageTitle.textContent = '"You\'ve reached Miller Plumbing. Leave a message…"';
       stageSub.textContent   = 'No callback until Wednesday morning. Caller went with someone else.';
-      time.textContent = '0:08';
     }
-    // waveform heights
-    var h = heights[state.compare];
-    bars.forEach(function (b, i) {
-      b.style.height = h[i] + '%';
-      b.classList.toggle('active', state.playing && i < 20);
-    });
-    // play icon
-    playIcon.innerHTML = state.playing ? PAUSE_SVG : PLAY_SVG;
-    playBtn.setAttribute('aria-label', state.playing ? 'Pause' : 'Play');
   }
 
   toggles.forEach(function (t) {
     t.addEventListener('click', function () {
       state.compare = t.dataset.compare;
-      state.playing = false;
       render();
     });
-  });
-
-  playBtn.addEventListener('click', function () {
-    state.playing = !state.playing;
-    render();
   });
 
   render();
