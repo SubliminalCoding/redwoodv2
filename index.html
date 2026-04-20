@@ -59,13 +59,14 @@
   --bg-card-hover: #ede5d2;
   --border: #e8e4df;
   --text: #3d3a36;
-  --text-dim: #5f5a52;
-  --text-muted: #837d72;
+  --text-dim: #5a544b;        /* a11y: AA vs --bg — was #5f5a52 (5.4:1) → now 6.1:1 */
+  --text-muted: #6a645a;      /* a11y: AA for 14px+ — was #837d72 (3.4:1, failed) → now 4.7:1 */
   --accent: #b44a2d;
   --accent-glow: rgba(180, 74, 45, 0.15);
   --accent-light: #c2654a;
   --accent-deep: #a3421f;
-  --green: #2d8a68;
+  --green: #206850;           /* a11y: small-text AA — was #2d8a68 (3.4:1, failed) → now 4.9:1 */
+  --green-bright: #2d8a68;    /* keep for badges/backgrounds where contrast isn't needed */
   --ink: #1a1a1a;
   --radius: 12px;
   --radius-sm: 8px;
@@ -143,20 +144,28 @@ h1, h2, h3, .section-title, .hero h1, .founder-headline {
   .fade-in { opacity: 1; transform: none; }
 }
 
-/* Skip link for accessibility */
+/* Skip link for accessibility — slides in from top on keyboard focus */
 .skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-140%);
   background: var(--accent);
   color: #fff;
-  padding: 8px 16px;
+  padding: 10px 20px;
   z-index: 200;
-  font-size: 0.9rem;
-  transition: top 0.2s;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(180, 74, 45, 0.35);
+  transition: transform 0.25s var(--ease-out);
+  text-decoration: none;
 }
-.skip-link:focus {
-  top: 0;
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateX(-50%) translateY(0);
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 /* Focus styles — branded ring with a subtle glow, matches button language */
@@ -168,6 +177,12 @@ a:focus-visible, button:focus-visible, .service-card:focus-visible, .btn:focus-v
   outline-offset: 3px;
   border-radius: 8px;
   box-shadow: 0 0 0 4px rgba(180, 74, 45, 0.12);
+}
+/* Dark-background focus ring — visible against warm-brown panels */
+.founder-section a:focus-visible, .founder-section button:focus-visible,
+.cta-section a:focus-visible, .cta-section button:focus-visible {
+  outline-color: #fff;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.18);
 }
 @supports (not (selector(:focus-visible))) {
   a:focus, button:focus {
@@ -1348,14 +1363,25 @@ footer p {
 }
 .footer-links {
   display: flex;
-  gap: 20px;
+  gap: 6px;
   list-style: none;
+  flex-wrap: wrap;
 }
 .footer-links a {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   color: var(--text-dim);
+  padding: 10px 14px;
+  border-radius: 6px;
+  line-height: 1;
+  transition: color 0.2s var(--ease-out), background 0.2s var(--ease-out);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
-.footer-links a:hover { color: var(--accent); }
+.footer-links a:hover {
+  color: var(--accent);
+  background: rgba(180, 74, 45, 0.06);
+}
 
 /* ---- COMPREHENSIVE MOBILE STYLES ---- */
 
@@ -2167,9 +2193,9 @@ img, svg, video, canvas, iframe { max-width: 100%; }
 
       <!-- Audio player card -->
       <div class="audio-card" id="audioCard">
-        <div class="audio-toggle-row">
-          <button class="audio-toggle" data-compare="before">Before · voicemail</button>
-          <button class="audio-toggle active" data-compare="after">After · AI answered</button>
+        <div class="audio-toggle-row" role="tablist" aria-label="Compare before and after outcomes">
+          <button class="audio-toggle" data-compare="before" role="tab" aria-selected="false" type="button">Before · voicemail</button>
+          <button class="audio-toggle active" data-compare="after" role="tab" aria-selected="true" type="button">After · AI answered</button>
         </div>
 
         <div class="audio-stage after" id="audioStage">
@@ -2398,16 +2424,16 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
     <h2 class="section-title">Get in touch</h2>
     <p class="section-subtitle" style="margin: 0 auto;">Questions? Reach out.</p>
     <div class="contact-methods">
-      <a href="tel:+12272535980" class="contact-card">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <a href="tel:+12272535980" class="contact-card" aria-label="Call Redwood Digital at 227-253-5980">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         (227) 253-5980
       </a>
-      <a href="mailto:matthew@redwooddigitalfrederick.com" class="contact-card">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <a href="mailto:matthew@redwooddigitalfrederick.com" class="contact-card" aria-label="Email Matthew at matthew@redwooddigitalfrederick.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         matthew@redwooddigitalfrederick.com
       </a>
-      <a href="https://calendly.com/redwood-digital/free-15-minute-consultation" class="contact-card" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <a href="https://calendly.com/redwood-digital/free-15-minute-consultation" class="contact-card" target="_blank" rel="noopener" aria-label="Book a 15-minute consultation (opens Calendly in new tab)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         Book a call
       </a>
     </div>
@@ -2448,7 +2474,7 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-// Mobile menu
+// Mobile menu — with Escape-to-close + focus return
 function toggleMenu() {
   const menu = document.getElementById('nav-menu');
   const isOpen = menu.classList.toggle('open');
@@ -2457,14 +2483,29 @@ function toggleMenu() {
   hamburger.querySelector('.hamburger-close').style.display = isOpen ? 'block' : 'none';
   hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
   hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+  if (isOpen) {
+    const firstLink = menu.querySelector('a');
+    if (firstLink) firstLink.focus();
+  }
 }
 function closeMenu() {
-  document.getElementById('nav-menu').classList.remove('open');
+  const menu = document.getElementById('nav-menu');
+  if (!menu.classList.contains('open')) return;
+  menu.classList.remove('open');
   const hamburger = document.querySelector('.hamburger');
   hamburger.querySelector('.hamburger-open').style.display = 'block';
   hamburger.querySelector('.hamburger-close').style.display = 'none';
   hamburger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+  hamburger.focus();
 }
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const menu = document.getElementById('nav-menu');
+    if (menu && menu.classList.contains('open')) closeMenu();
+  }
+});
 
 // FAQ accordion
 function toggleFaq(btn) {
@@ -2740,6 +2781,9 @@ function toggleFaq(btn) {
   toggles.forEach(function (t) {
     t.addEventListener('click', function () {
       state.compare = t.dataset.compare;
+      toggles.forEach(function (x) {
+        x.setAttribute('aria-selected', x.dataset.compare === state.compare ? 'true' : 'false');
+      });
       render();
     });
   });
