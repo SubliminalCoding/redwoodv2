@@ -1961,7 +1961,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
       <span class="logo-text">Redwood <em>Digital</em></span>
     </a>
     <ul id="nav-menu">
-      <li><a href="#starter" onclick="closeMenu()">Starter Pack</a></li>
+      <li><a href="#pricing" onclick="closeMenu()">Starter Pack</a></li>
       <li><a href="#services" onclick="closeMenu()">Custom Apps</a></li>
       <li><a href="#proof" onclick="closeMenu()">AI Caller</a></li>
       <li><a href="#pricing" onclick="closeMenu()">Pricing</a></li>
@@ -2158,7 +2158,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }
           <div class="signature">— Matthew</div>
         </div>
         <div class="founder-cta-row">
-          <a class="btn" href="https://calendly.com/redwood-digital/15min" target="_blank" rel="noopener">Book a 15-min call</a>
+          <a class="btn" href="https://calendly.com/redwood-digital/free-15-minute-consultation" target="_blank" rel="noopener">Book a 15-min call</a>
           <a class="btn-outline-light" href="mailto:matthew@redwooddigitalfrederick.com">matthew@redwooddigitalfrederick.com</a>
         </div>
         <div class="founder-micro">15 minutes, no slide deck. Tell me what's broken and I'll tell you what it costs.</div>
@@ -2335,7 +2335,7 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
           <li>Weekly report of what it booked</li>
           <li>Custom scripts, your voice</li>
         </ul>
-        <a href="#contact" class="btn btn-sm btn-block">Book a call</a>
+        <a href="https://calendly.com/redwood-digital/free-15-minute-consultation" target="_blank" rel="noopener" class="btn btn-sm btn-block">Book a call</a>
       </div>
 
       <div class="pricing-card">
@@ -2500,9 +2500,6 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
         <li><a href="#services">Services</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="terms.html">Terms</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="refund.html">Refunds</a></li>
       </ul>
     </div>
   </div>
@@ -2690,22 +2687,30 @@ function toggleFaq(btn) {
 -->
 <style>
 .chat-bubble {
-  position: fixed; bottom: 24px; right: 24px; z-index: 999;
+  position: fixed; bottom: 24px; right: 24px; z-index: 95;
   width: 60px; height: 60px; border-radius: 50%;
   background: var(--accent); color: #fff;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; box-shadow: 0 4px 16px rgba(180,74,45,0.3);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s, bottom 0.3s var(--ease-out);
   border: none;
 }
 .chat-bubble:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(180,74,45,0.4); }
 .chat-bubble svg { width: 28px; height: 28px; }
+/* Lift the bubble above the mobile CTA bar on phones */
+@media (max-width: 768px) {
+  .chat-bubble { bottom: calc(92px + env(safe-area-inset-bottom)); right: 16px; width: 52px; height: 52px; }
+  .chat-bubble svg { width: 24px; height: 24px; }
+}
 .chat-panel {
-  position: fixed; bottom: 96px; right: 24px; z-index: 999;
+  position: fixed; bottom: 96px; right: 24px; z-index: 96;
   width: 340px; max-width: calc(100vw - 48px);
   background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
   box-shadow: 0 12px 40px rgba(0,0,0,0.12);
   display: none; flex-direction: column; overflow: hidden;
+}
+@media (max-width: 768px) {
+  .chat-panel { bottom: calc(160px + env(safe-area-inset-bottom)); right: 16px; }
 }
 .chat-panel.open { display: flex; }
 .chat-header {
@@ -2713,6 +2718,7 @@ function toggleFaq(btn) {
   font-weight: 600; font-size: 0.95rem;
   display: flex; align-items: center; justify-content: space-between;
 }
+.chat-header-title { display: inline-flex; align-items: center; gap: 8px; }
 .chat-header button { background: none; border: none; color: #fff; cursor: pointer; font-size: 1.2rem; line-height: 1; }
 .chat-body { padding: 20px; }
 .chat-body p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 16px; }
@@ -2738,7 +2744,10 @@ function toggleFaq(btn) {
 
 <div class="chat-panel" id="chatPanel">
   <div class="chat-header">
-    <span>👋 Quick question?</span>
+    <span class="chat-header-title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Quick question?
+    </span>
     <button id="chatClose" aria-label="Close chat">&times;</button>
   </div>
   <div class="chat-body" id="chatForm">
