@@ -715,9 +715,16 @@ section[style*="text-align"] .section-title,
   margin-bottom: 16px;
 }
 .service-price {
-  font-size: 0.85rem;
+  display: inline-block;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--green);
+  background: rgba(45, 138, 104, 0.08);
+  border: 1px solid rgba(45, 138, 104, 0.2);
+  padding: 4px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.005em;
+  font-variant-numeric: tabular-nums;
 }
 
 .service-card h3 {
@@ -747,8 +754,27 @@ section[style*="text-align"] .section-title,
     left: calc(33.33% + 20px);
     right: calc(33.33% + 20px);
     height: 2px;
-    background: repeating-linear-gradient(90deg, var(--accent) 0, var(--accent) 8px, transparent 8px, transparent 16px);
-    opacity: 0.3;
+    background: linear-gradient(90deg,
+      rgba(180, 74, 45, 0) 0%,
+      rgba(180, 74, 45, 0.38) 12%,
+      rgba(180, 74, 45, 0.38) 88%,
+      rgba(180, 74, 45, 0) 100%);
+    border-radius: 2px;
+  }
+  .steps::after {
+    content: '';
+    position: absolute;
+    top: 26px;
+    left: calc(33.33% + 20px);
+    right: calc(33.33% + 20px);
+    height: 6px;
+    background: linear-gradient(90deg,
+      rgba(180, 74, 45, 0) 0%,
+      rgba(180, 74, 45, 0.08) 20%,
+      rgba(180, 74, 45, 0.08) 80%,
+      rgba(180, 74, 45, 0) 100%);
+    filter: blur(3px);
+    pointer-events: none;
   }
 }
 @media (max-width: 700px) {
@@ -1165,18 +1191,31 @@ section[style*="text-align"] .section-title,
   flex-grow: 1;
 }
 .pricing-card ul li {
-  font-size: 0.9rem;
-  color: var(--text-dim);
-  padding: 6px 0;
-  padding-left: 20px;
+  font-size: 0.92rem;
+  color: var(--text);
+  padding: 8px 0 8px 30px;
   position: relative;
+  line-height: 1.5;
 }
 .pricing-card ul li::before {
-  content: '\2713';
+  content: '';
   position: absolute;
   left: 0;
-  color: var(--green);
-  font-weight: 600;
+  top: 11px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: rgba(45, 138, 104, 0.14);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23206850' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+  background-size: 11px;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 1px rgba(45, 138, 104, 0.18);
+}
+.pricing-card.featured ul li::before {
+  background-color: rgba(180, 74, 45, 0.12);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b44a2d' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+  box-shadow: inset 0 0 0 1px rgba(180, 74, 45, 0.22);
 }
 .pricing-grid .pricing-card:nth-child(1) { transition-delay: 0s; }
 .pricing-grid .pricing-card:nth-child(2) { transition-delay: 0.1s; }
@@ -1242,7 +1281,7 @@ section[style*="text-align"] .section-title,
 .faq-question:hover svg { color: var(--accent-light); }
 .faq-item.open .faq-question { color: var(--accent); }
 .faq-item.open .faq-question svg {
-  transform: rotate(45deg);
+  transform: rotate(180deg);
   color: var(--accent);
 }
 .faq-answer {
@@ -1402,6 +1441,7 @@ section[style*="text-align"] .section-title,
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+  transition: transform 0.45s var(--ease-spring);
 }
 .contact-card:hover {
   border-color: var(--accent);
@@ -1409,6 +1449,9 @@ section[style*="text-align"] .section-title,
   color: #fff;
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+}
+.contact-card:hover svg {
+  transform: rotate(-6deg) scale(1.08);
 }
 
 /* ---- FOOTER ---- */
@@ -1716,15 +1759,29 @@ img, svg, video, canvas, iframe { max-width: 100%; }
   box-shadow: 0 0 0 3px rgba(45,138,104,.18); animation: live-pulse 2s ease-in-out infinite; }
 @keyframes live-pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
 
-.transcript-body { padding:16px 20px; display:flex; flex-direction:column; gap:10px; flex:1; }
+.transcript-body { padding:18px 20px; display:flex; flex-direction:column; gap:12px; flex:1; }
 .tl { display:grid; grid-template-columns:48px 1fr; gap:10px; align-items:start; }
 .tl-who { font-size:.66rem; font-family: ui-monospace, Menlo, monospace;
   letter-spacing:.1em; text-transform:uppercase; padding:3px 6px; border-radius:4px;
-  text-align:center; margin-top:2px; }
-.tl.ai .tl-who { background: rgba(180,74,45,.1); color:var(--accent); }
+  text-align:center; margin-top:8px; }
+.tl.ai .tl-who { background: rgba(180,74,45,.12); color:var(--accent);
+  box-shadow: inset 0 0 0 1px rgba(180,74,45,.18); }
 .tl.caller .tl-who { background: rgba(20,18,14,.06); color:var(--text-dim); }
-.tl-text { font-size:.92rem; line-height:1.5; color:#1a1a1a; }
-.tl.caller .tl-text { color:var(--text-dim); }
+.tl-text {
+  font-size: .94rem;
+  line-height: 1.5;
+  color: var(--ink);
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(180, 74, 45, 0.05), rgba(180, 74, 45, 0.02));
+  border: 1px solid rgba(180, 74, 45, 0.12);
+}
+.tl.caller .tl-text {
+  color: var(--text-dim);
+  background: transparent;
+  border-color: transparent;
+  padding: 10px 4px;
+}
 
 .transcript-footer { padding:16px 20px; border-top:1px solid var(--border); background:#f4eee2; }
 .tf-outcome { font-size:.88rem; color:#1a1a1a; font-weight:600;
@@ -2372,7 +2429,7 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq-1" onclick="toggleFaq(this)">
           What's actually included in the $99 Starter Pack?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer" id="faq-1"><p>A mobile-first website (1-3 pages), a full Google Business Profile setup and cleanup (photos, hours, categories, services), and a review request system that nudges happy customers to leave a review. One flat fee, one week to live.</p></div>
       </div>
@@ -2380,7 +2437,7 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq-2" onclick="toggleFaq(this)">
           How fast can I go live?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer" id="faq-2"><p>One week from sign-off. The first few days are a short kickoff call plus collecting your logo, photos, and hours. I handle the rest. You approve the draft, I push it live.</p></div>
       </div>
@@ -2388,7 +2445,7 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq-3" onclick="toggleFaq(this)">
           I already have a website. Do you replace it or update it?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer" id="faq-3"><p>Whichever makes sense. If your existing site is slow or broken on phones, I rebuild it. If it's decent but the Google listing is neglected, we focus there. Either way it's the same $99.</p></div>
       </div>
@@ -2396,7 +2453,7 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq-4" onclick="toggleFaq(this)">
           Can I cancel the $49/mo retainer?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer" id="faq-4"><p>Any time, no penalty. You keep your site and your Google Business Profile. The retainer covers monthly updates, new photos, GBP posts, and review replies. Most businesses stay once they see leads come in, but you're never locked in.</p></div>
       </div>
@@ -2404,7 +2461,7 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq-5" onclick="toggleFaq(this)">
           What happens to my Google listing?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer" id="faq-5"><p>You own it. I get added as a manager during setup so I can update it, and I step off any time you ask. Your account, your listing. I just get it to look like you actually run a real business.</p></div>
       </div>
@@ -2414,7 +2471,7 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq-6" onclick="toggleFaq(this)">
           Do I own the code?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer" id="faq-6"><p>Yes, 100%. You get the full source code. No licensing fees, no vendor lock-in. If you want to take it to another developer down the road, you can.</p></div>
       </div>
@@ -2422,7 +2479,7 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq-7" onclick="toggleFaq(this)">
           Who handles hosting?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer" id="faq-7"><p>I set up hosting as part of the project. Most apps run on modern platforms that cost $0-20/month. I'll walk you through what it costs and how it works before we start.</p></div>
       </div>
@@ -2430,7 +2487,7 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq-8" onclick="toggleFaq(this)">
           What if I need changes after launch?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer" id="faq-8"><p>Every project comes with 30 days of post-launch support for bug fixes and small tweaks. After that, I offer monthly retainers for ongoing updates, or you can hire me for one-off changes as needed.</p></div>
       </div>
@@ -2438,7 +2495,7 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq-9" onclick="toggleFaq(this)">
           What if the project scope changes?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer" id="faq-9"><p>We agree on scope and price before I start. If you want to add something significant mid-project, I'll quote the addition separately so there are no surprises. Small tweaks during development are always included.</p></div>
       </div>
@@ -2446,7 +2503,7 @@ FILLED JOEL TESTIMONIAL (paste over the JOEL SLOT above when Joel's quote arrive
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" aria-controls="faq-10" onclick="toggleFaq(this)">
           Can you work with tools I already use?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer" id="faq-10"><p>Usually, yes. Google Calendar, Stripe, email services, spreadsheets. Most tools have APIs I can connect to. We'll figure out integrations during the scoping call.</p></div>
       </div>
